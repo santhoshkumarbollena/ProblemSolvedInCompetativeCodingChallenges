@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class KnightTourProblem { 
     static int N = 8; 
   
@@ -5,7 +7,7 @@ class KnightTourProblem {
        valid indexes for N*N chessboard */
     static boolean isSafe(int x, int y, int sol[][]) { 
         return (x >= 0 && x < N && y >= 0 && 
-                y < N && sol[x][y] == -1); 
+                y < N && (sol[x][y] == 0||sol[x][y] == 1)); 
     } 
   
     /* A utility function to print solution 
@@ -27,21 +29,22 @@ class KnightTourProblem {
        solutions, this function prints one of the 
        feasible solutions.  */
     static boolean solveKT() { 
-        int sol[][] = new int[8][8]; 
-  
+        int sol[][] = new int[3][3]; 
+  Scanner sc=new Scanner(System.in);
         /* Initialization of solution matrix */
         for (int x = 0; x < N; x++) 
             for (int y = 0; y < N; y++) 
-                sol[x][y] = -1; 
+                sol[x][y] = sc.nextInt(); 
   
        /* xMove[] and yMove[] define next move of Knight. 
           xMove[] is for next value of x coordinate 
           yMove[] is for next value of y coordinate */
-        int xMove[] = {2, 1, -1, -2, -2, -1, 1, 2}; 
-        int yMove[] = {1, 2, 2, 1, -1, -2, -2, -1}; 
-  
+        int xMove[] = {0, 1}; 
+        int yMove[] = {1, 0}; 
+        int x1Move[] = {-1, 0}; 
+        int y1Move[] = {0, -1}; 
         // Since the Knight is initially at the first block 
-        sol[0][0] = 0; 
+         
   
         /* Start from 0,0 and explore all tours using 
            solveKTUtil() */
@@ -65,11 +68,13 @@ class KnightTourProblem {
   
         /* Try all next moves from the current coordinate 
             x, y */
-        for (k = 0; k < 8; k++) { 
+        int output=0;
+        for (k = 0; k < 3; k++) { 
             next_x = x + xMove[k]; 
             next_y = y + yMove[k]; 
             if (isSafe(next_x, next_y, sol)) { 
-                sol[next_x][next_y] = movei; 
+                 output=output+sol[next_x][next_y];
+                 sol[next_x][next_y]=0;
                 if (solveKTUtil(next_x, next_y, movei + 1, 
                                 sol, xMove, yMove)) 
                     return true; 
